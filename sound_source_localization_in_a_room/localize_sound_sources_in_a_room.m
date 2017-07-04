@@ -6,9 +6,9 @@ addpath('build_room_mode_dictionary');
 addpath('reconstruct_locations_of_sources');
 
 % Input data
-Lx = 3.9; Ly = 8.15; Lz = 3.35;
-STEPS_X = 15; STEPS_Y = 15; STEPS_Z = 15;
-pos_r = Point3D(7*Lx/STEPS_X, 3*Ly/STEPS_Y, Lz/STEPS_Z);
+Lx = 4; Ly = 7; Lz = 3;
+STEPS_X = 15; STEPS_Y = 25; STEPS_Z = 15;
+pos_r = Point3D(7*Lx/STEPS_X, 3*Ly/STEPS_Y, 5*Lz/STEPS_Z);
 NUMBER_OF_WALLS = 6;
 WALL_IMPEDANCES = 0.01*ones(NUMBER_OF_WALLS, 1);
 TEMPERATURE = 25;
@@ -38,7 +38,9 @@ while termination
     % try to recover the locations
     [reconstructed_indices, reconstruction_error]  = ...
         reconstruct_locations(signal, length(gound_truth_positions));
-    if((reconstruction_error < 0.001) && sum(sum(reconstructed_indices))~=NaN)
+    if((reconstruction_error < 0.0001) && ...
+            sum(sum(reconstructed_indices)) ~= NaN && ...
+            reconstruction_error ~= NaN)
         print_results(gound_truth_positions, reconstructed_indices, ...
             selected_positions, pos_r, Lx, Ly, Lz);
         termination = false;
